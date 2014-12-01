@@ -22,10 +22,14 @@ import uk.ac.ebi.pride.tools.protein_details_fetcher.model.Protein.STATUS;
 import uk.ac.ebi.pride.tools.protein_details_fetcher.util.ProteinAccessionPattern;
 
 public class ProteinDetailFetcher {
+
     private static final Logger logger = LoggerFactory.getLogger(ProteinDetailFetcher.class);
 	
 	private static final String TAB = "\t";
 	private static final String EOL = "\n";
+
+    private static final String UNIPROT_PROTEIN = "P31946L";
+
 
 	/**
 	 * Queries used to fetch the actual protein
@@ -840,5 +844,27 @@ public class ProteinDetailFetcher {
             }
         }
         return isoform;
+    }
+
+    /**
+     * From a protein Ids check all the services (Uniprot, EntrezGene) to know if the web services
+     * are available.
+     *
+     * @return
+     */
+    public static boolean checkUniprotService(){
+        boolean servicesAvailable = false;
+        Collection<String> uniprotIds = new ArrayList<String>();
+        uniprotIds.add(UNIPROT_PROTEIN);
+        ProteinDetailFetcher proteinDetailFetcher = new ProteinDetailFetcher();
+        try{
+        HashMap<String, Protein> uniprotDetails = proteinDetailFetcher.getProteinDetails(uniprotIds);
+        if( uniprotDetails != null && !uniprotDetails.isEmpty())
+            return true;
+        }catch (Exception e) {
+            logger.error("There is no internet connection", e);
+            return false;
+        }
+        return servicesAvailable;
     }
 }
