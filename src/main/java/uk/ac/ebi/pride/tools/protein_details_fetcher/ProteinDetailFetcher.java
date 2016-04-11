@@ -242,7 +242,6 @@ public class ProteinDetailFetcher {
         		proteins.put(protein.getAccession(), protein);
         }
         
-        // TODO: add the protein's status
        proteins = enrichNCBIProteins(proteins);
         
        return proteins;
@@ -268,7 +267,7 @@ public class ProteinDetailFetcher {
     		// get the properties
     		HashMap<String, String> properties = proteinProperties.get(Integer.parseInt(p.getProperty(PROPERTY.GI_NUMBER)));
     		
-    		if (properties != null) {
+    		if (properties != null && !properties.isEmpty() && properties.containsKey("Status")) {
     			// check the status
     			String status = properties.get("Status");
     			
@@ -326,7 +325,9 @@ public class ProteinDetailFetcher {
 	
 	        // parse the items
 	        for (Element item : items) {
-	            properties.put(item.getAttributeValue("Name"), item.getValue());
+				if(item.getAttributes().contains("Name")) {
+					properties.put(item.getAttributeValue("Name"), item.getValue());
+				}
 	        }
 	        
 	        // get the id
