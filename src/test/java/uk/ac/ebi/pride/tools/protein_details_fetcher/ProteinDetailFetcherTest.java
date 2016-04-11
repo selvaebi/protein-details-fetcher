@@ -172,14 +172,13 @@ public class ProteinDetailFetcherTest extends TestCase {
 			p = proteins.get("XP_217055");
 			assertNotNull(p);
 			assertEquals("XP_217055", p.getAccession());
-			assertEquals(STATUS.CHANGED, p.getStatus());
-			assertEquals(1, p.getReplacingProteins().size());
-			assertEquals("NP_001008802", p.getReplacingProteins().get(0).getAccession());
-			
+			assertEquals(STATUS.UNKNOWN, p.getStatus());
+			assertEquals(0, p.getReplacingProteins().size());
+
 			p = proteins.get("XP_218966");
 			assertNotNull(p);
 			assertEquals("XP_218966", p.getAccession());
-			assertEquals(STATUS.DELETED, p.getStatus());
+			assertEquals(STATUS.UNKNOWN, p.getStatus());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
