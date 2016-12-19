@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Object to store protein related details
- * <p/>
+ * <p>Object to store protein related details</p>
  * User: rwang
  * Date: 08/06/11
  * Time: 16:42
@@ -133,7 +132,7 @@ public class Protein implements Serializable {
      * return a set of starting positions which matches the given sub sequence
      *
      * @param subSeq    given sub sequence
-     * @return  Set<Integer>    starting positions
+     * @return Return a Set of positions
      */
     public Set<Integer> searchStartingPosition(String subSeq) {
         Set<Integer> pos = new HashSet<Integer>();
@@ -153,8 +152,8 @@ public class Protein implements Serializable {
     
     /**
      * Sets the given property.
-     * @param property
-     * @param value
+     * @param property PROPERTY with details of the protein
+     * @param value The value of the PROPERTY
      */
     public void setProperty(PROPERTY property, String value) {
     	properties.put(property, value);
@@ -170,10 +169,19 @@ public class Protein implements Serializable {
     	return properties.get(property);
     }
 
+    /**
+     * Return the Id of the organism
+     * @return The id of the organism
+     */
     public String getOrganismId() {
         return organismId;
     }
 
+    /**
+     * Set the organism
+     *
+     * @param organismId Organism ID
+     */
     public void setOrganismId(String organismId) {
         this.organismId = organismId;
     }

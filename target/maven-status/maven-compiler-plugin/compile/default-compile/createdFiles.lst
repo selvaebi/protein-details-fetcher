@@ -1,0 +1,9 @@
+uk/ac/ebi/pride/tools/protein_details_fetcher/model/Protein$PROPERTY.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/ProteinDetailFetcher$DETAILS_QUERY.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/ProteinDetailFetcher$AccessionType.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/ProteinDetailFetcher.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/ProteinDetailFetcher$1.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/model/Protein.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/util/ProteinAccessionPattern.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/model/Protein$STATUS.class
+uk/ac/ebi/pride/tools/protein_details_fetcher/ProteinDetailFetcher$MAPPING_QUERY.class

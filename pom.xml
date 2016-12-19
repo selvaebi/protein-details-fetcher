@@ -3,7 +3,7 @@
 
     <groupId>uk.ac.ebi.pride.tools</groupId>
     <artifactId>protein-details-fetcher</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.8</version>
     <url>https://github.com/PRIDE-Utilities/protein-details-fetcher</url>
     <packaging>jar</packaging>
 

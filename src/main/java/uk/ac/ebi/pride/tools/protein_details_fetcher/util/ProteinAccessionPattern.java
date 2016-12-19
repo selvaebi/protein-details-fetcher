@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Regular expression pattern and url for protein accessions.
- * <p/>
+ * <p>Regular expression pattern and url for protein accessions.</p>
+ *
  * User: rwang
  * Date: 16-Sep-2010
  * Time: 10:12:32
@@ -75,7 +75,9 @@ public enum ProteinAccessionPattern {
      * EMBL
      */
     EMBL(Pattern.compile("[A-Z]{3}[0-9]{5}\\.[0-9]+"),
-            new MessageFormat("http://srs.ebi.ac.uk/srsbin/cgi-bin/wgetz?-e+[emblcds-ID:''{0}'']"));
+            new MessageFormat("http://srs.ebi.ac.uk/srsbin/cgi-bin/wgetz?-e+[emblcds-ID:''{0}'']")),
+
+    ENSEML_TRANSCRIPT(Pattern.compile("ENSM[A-Z,0-9]+"), new MessageFormat("http://www.ensembl.org/common/psychic?site=&species=&q={0}"));
 
     private Pattern idPattern;
     private MessageFormat urlPattern;
@@ -160,6 +162,10 @@ public enum ProteinAccessionPattern {
      */
     public static boolean isEnsemblAccession(String acc) {
         return isMatchAccession(ENSEMBL.getIdPattern(), acc);
+    }
+
+    public static boolean isEnsemblTranscriptAccession(String acc){
+        return isMatchAccession(ENSEML_TRANSCRIPT.getIdPattern(), acc);
     }
 
     /**

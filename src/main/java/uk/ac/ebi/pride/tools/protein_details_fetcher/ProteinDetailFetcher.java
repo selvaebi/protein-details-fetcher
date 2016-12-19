@@ -78,14 +78,14 @@ public class ProteinDetailFetcher {
 	 * @author jg
 	 *
 	 */
-	private enum AccessionType{UNIPROT_ACC, UNIPROT_ID, UNIPARC, IPI, REFSEQ, ENSEMBL, GI, UNKNOWN}
+	public enum AccessionType{UNIPROT_ACC, UNIPROT_ID, UNIPARC, IPI, REFSEQ, ENSEMBL, GI, ENSEMBL_TRANSCRIPT, accessionType, UNKNOWN}
 	
     // query string for the NCBI esummary tool
-    private final String ESUMMARY_QUERY_STRING = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=%s";
+    public final String ESUMMARY_QUERY_STRING = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=%s";
     // query string for the NCBI esearch tool
-    private final String ESEARCH_QUERY_STRING = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=protein&term=%s";
+    public final String ESEARCH_QUERY_STRING = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=protein&term=%s";
     // query string to fetch the protein sequence from NCBI
-    private final String EFETCH_FORMAT_STRING = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=%s&rettype=fasta&tool=pride_inspector";
+    public final String EFETCH_FORMAT_STRING = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=%s&rettype=fasta&tool=pride_inspector";
 
     private HashMap<String, String> pageBuffer = new HashMap<String, String>();
     // TODO: in case this class should be used in a multi-thread environment, this member variable should be changed to static + concurrentHashMap
@@ -97,7 +97,7 @@ public class ProteinDetailFetcher {
      * @param accession The accession to guess the type for.
      * @return The accession's type.
      */
-    private AccessionType getAccessionType(String accession) {
+    public AccessionType getAccessionType(String accession) {
     	// swissprot accession
     	if (ProteinAccessionPattern.isSwissprotAccession(accession))
             return AccessionType.UNIPROT_ACC;
@@ -116,6 +116,9 @@ public class ProteinDetailFetcher {
         // ENSEMBL
         if (ProteinAccessionPattern.isEnsemblAccession(accession))
         	return AccessionType.ENSEMBL;
+
+		if(ProteinAccessionPattern.isEnsemblTranscriptAccession(accession))
+			return AccessionType.ENSEMBL_TRANSCRIPT;
 
         // NCBI
         if (ProteinAccessionPattern.isRefseqAccession(accession))
@@ -849,8 +852,7 @@ public class ProteinDetailFetcher {
     /**
      * From a protein Ids check all the services (Uniprot, EntrezGene) to know if the web services
      * are available.
-     *
-     * @return
+     * @return boolean
      */
     public static boolean checkUniprotService(){
         boolean servicesAvailable = false;
