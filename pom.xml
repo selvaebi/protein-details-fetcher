@@ -94,8 +94,8 @@
     </build>
 
     <scm>
-        <connection>scm:git:github.com/PRIDE-Utilities/protein-details-fetcher.git</connection>
-        <developerConnection>scm:git:git@github.com:PRIDE-Utilities/protein-details-fetcher.git</developerConnection>
+        <connection>scm:git:https://github.com/PRIDE-Utilities/protein-details-fetcher.git</connection>
+        <developerConnection>scm:git:https://github.com/PRIDE-Utilities/protein-details-fetcher.git</developerConnection>
         <url>https://github.com/PRIDE-Utilities/protein-details-fetcher.git</url>
         <tag>HEAD</tag>
     </scm>
