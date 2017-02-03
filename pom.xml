@@ -9,6 +9,15 @@
 
     <name>protein-details-fetcher</name>
 
+    <parent>
+        <groupId>uk.ac.ebi.pride.architectural</groupId>
+        <artifactId>pride-core</artifactId>
+        <version>1.0.1</version>
+    </parent>
+
+    <!-- LICENSE - from parent POM -->
+    <!-- ORGANIZATION - from parent POM -->
+    
     <developers>
         <developer>
             <id>jgriss</id>
