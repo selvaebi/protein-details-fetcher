@@ -17,15 +17,9 @@
 
     <!-- LICENSE - from parent POM -->
     <!-- ORGANIZATION - from parent POM -->
-    
+
     <developers>
-        <developer>
-            <id>jgriss</id>
-            <name>Johannes Griss</name>
-            <email>jgriss@ebi.ac.uk</email>
-            <organization>European Bioinformatics Institute</organization>
-            <organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
-        </developer>
+
         <developer>
             <id>ypriverol</id>
             <name>Yasset Perez-Riverol</name>
@@ -33,7 +27,26 @@
             <organization>European Bioinformatics Institute</organization>
             <organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
         </developer>
+        <developer>
+            <id>mbernal</id>
+            <name>Manuel Bernal-Llinares</name>
+            <organization>Proteomics Team, EMBL-European Bioinformatics Institute</organization>
+            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/London</timezone>
+        </developer>
     </developers>
+
+    <contributors>
+        <contributor>
+            <name>Johannes Griss</name>
+            <email>jgriss@ebi.ac.uk</email>
+            <organization>European Bioinformatics Institute</organization>
+            <organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
+        </contributor>
+    </contributors>
     <organization>
         <name>European Bioinformatics Institute</name>
         <url>http://www.ebi.ac.uk</url>
