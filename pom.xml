@@ -47,10 +47,6 @@
             <organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
         </contributor>
     </contributors>
-    <organization>
-        <name>European Bioinformatics Institute</name>
-        <url>http://www.ebi.ac.uk</url>
-    </organization>
 
     <build>
         <plugins>
