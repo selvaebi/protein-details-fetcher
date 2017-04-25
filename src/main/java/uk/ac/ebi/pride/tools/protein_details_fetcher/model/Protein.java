@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.tools.protein_details_fetcher.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +15,7 @@ import java.util.Set;
  * Date: 08/06/11
  * Time: 16:42
  */
-@SuppressWarnings("serial")
+
 public class Protein implements Serializable {
     public enum STATUS {UNKNOWN, ACTIVE, DELETED, CHANGED, DEMERGED, MERGED, ERROR};
     /**
@@ -22,12 +24,13 @@ public class Protein implements Serializable {
      * @author jg
      *
      */
-    public enum PROPERTY{STATUS_INFO, GI_NUMBER, SOURCE, ERROR_STRING, ACCESSION_VERSION, DESCRIPTION};
+    public enum PROPERTY{STATUS_INFO, SOURCE, ERROR_STRING, ACCESSION_VERSION};
+
     /**
      * The protein's properties.
      */
-    private HashMap<PROPERTY, String> properties = new HashMap<Protein.PROPERTY, String>();
-	/**
+    private HashMap<PROPERTY, String> properties = new HashMap<>();
+    /**
      * Human readable name for the protein
      */
     private String name = null;
@@ -50,14 +53,13 @@ public class Protein implements Serializable {
 
     private String organismId = null;
 
-    private List<Protein> replacingProteins = new ArrayList<Protein>();
+    private List<Protein> replacingProteins = new ArrayList<>();
 
 
     public Protein(String accession) {
         if (accession == null || "".equals(accession.trim())) {
             throw new IllegalArgumentException("Protein accession cannot be NULL");
         }
-
         this.accession = accession;
     }
 
@@ -82,27 +84,31 @@ public class Protein implements Serializable {
     }
 
     public void setSequenceString(String sequence) {
-        this.sequenceString = sequence == null ? sequence : sequence.toUpperCase();
+        if (!StringUtils.isEmpty(sequence)) {
+            this.sequenceString = sequence.toUpperCase();
+        } else {
+            this.sequenceString = null;
+        }
     }
 
     public STATUS getStatus() {
-    	return status;
+        return status;
     }
 
     public void setStatus(STATUS status) {
         this.status = status;
     }
-	
-	public List<Protein> getReplacingProteins() {
-		return replacingProteins;
-	}
 
-	public String getSubSequenceString(int start, int stop) {
+    public List<Protein> getReplacingProteins() {
+        return replacingProteins;
+    }
+
+    public String getSubSequenceString(int start, int stop) {
+        String result = null;
         if (sequenceString != null && sequenceString.length() >= stop && start >= 1 && start <= stop) {
-            return this.sequenceString.substring(start - 1, stop);
-        } else {
-            return null;
+            result =  this.sequenceString.substring(start - 1, stop);
         }
+        return result;
     }
 
     /**
@@ -135,30 +141,30 @@ public class Protein implements Serializable {
      * @return Return a Set of positions
      */
     public Set<Integer> searchStartingPosition(String subSeq) {
-        Set<Integer> pos = new HashSet<Integer>();
-
+        Set<Integer> position = new HashSet<>();
         if (sequenceString != null && subSeq != null) {
             int previousIndex = -1;
-            int index = -1;
-
-            while((index = (previousIndex == -1 ? sequenceString.indexOf(subSeq) : sequenceString.indexOf(subSeq, previousIndex + 1))) > -1) {
-                pos.add(index);
+            int index;
+            while((index = (previousIndex == -1 ?
+                sequenceString.indexOf(subSeq) :
+                sequenceString.indexOf(subSeq, previousIndex + 1)))
+                > -1) {
+                position.add(index);
                 previousIndex = index;
             }
         }
-
-        return pos;
+        return position;
     }
-    
+
     /**
      * Sets the given property.
      * @param property PROPERTY with details of the protein
      * @param value The value of the PROPERTY
      */
     public void setProperty(PROPERTY property, String value) {
-    	properties.put(property, value);
+        properties.put(property, value);
     }
-    
+
     /**
      * Returns the value of the specified property
      * or null in case it wasn't set.
@@ -166,7 +172,11 @@ public class Protein implements Serializable {
      * @return The property's value as String or null if it wasn't set.
      */
     public String getProperty(PROPERTY property) {
-    	return properties.get(property);
+        return properties.get(property);
+    }
+
+    public boolean hasProperty(PROPERTY property) {
+        return properties.containsKey(property);
     }
 
     /**
