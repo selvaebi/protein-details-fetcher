@@ -22,7 +22,7 @@ public class Protein implements Serializable {
      * @author jg
      *
      */
-    public enum PROPERTY{STATUS_INFO, GI_NUMBER, SOURCE, ERROR_STRING, ACCESSION_VERSION};
+    public enum PROPERTY{STATUS_INFO, GI_NUMBER, SOURCE, ERROR_STRING, ACCESSION_VERSION, DESCRIPTION};
     /**
      * The protein's properties.
      */

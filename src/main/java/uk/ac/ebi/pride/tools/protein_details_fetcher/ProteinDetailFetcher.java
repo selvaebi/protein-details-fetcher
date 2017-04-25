@@ -38,7 +38,7 @@ public class ProteinDetailFetcher {
 	 *
 	 */
 	public enum DETAILS_QUERY{
-		NCBI_FASTA("http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=%s&rettype=fasta&tool=protein_details_fetcher"),
+		NCBI_FASTA("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=%s&rettype=fasta&tool=protein_details_fetcher"),
 		UNIPROT("http://www.uniprot.org/uniprot/?query=%s&format=tab&columns=id,protein%%20names,sequence,reviewed,entry%%20name,organism-id"),
         UNIPROT_FASTA("http://www.uniprot.org/uniprot/%s");
 		
@@ -205,6 +205,7 @@ public class ProteinDetailFetcher {
      * @return A Protein object containing the protein's details.
      * @throws Exception
      */
+    @Deprecated
     private HashMap<String, Protein> getNcbiDetails(Collection<String> accessions, boolean useGiNumber) throws Exception {
     	// create the query string
     	String query = "";
@@ -249,8 +250,57 @@ public class ProteinDetailFetcher {
         
        return proteins;
     }
+
+
+    private HashMap<String, Protein> getNcbiDetails(Collection<String> accessions) throws Exception {
+        // create the query string
+        String query = "";
+
+        for (String accession : accessions){
+
+		}
+
+
+        // get the IPI fasta entry
+        String fastas = getPage(String.format(DETAILS_QUERY.NCBI_FASTA.getQueryString(), query));
+        String[] lines = fastas.split(EOL);
+
+        // parse the fasta entries
+        String fasta = "";
+
+        HashMap<String, Protein> proteins = new HashMap<String, Protein>();
+
+        for (int lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            String line = lines[lineIndex];
+
+            // process the current fasta
+            if (fasta.length() > 0 && line.startsWith(">")) {
+                Protein protein = convertNcbiFastaToProtein(fasta);
+                if (protein != null) {
+                    String accessionNoVersion = protein.getAccession().replaceAll("\\.\\d+$", "");
+                    proteins.put(accessionNoVersion, protein);
+                }
+
+                fasta = "";
+            }
+
+            fasta += line + EOL;
+        }
+
+        if (!"".equals(fasta)) {
+            Protein protein = convertNcbiFastaToProtein(fasta, useGiNumber);
+
+            if (protein != null)
+                proteins.put(protein.getAccession(), protein);
+        }
+
+        proteins = enrichNCBIProteins(proteins);
+
+        return proteins;
+    }
     
-        private HashMap<String, Protein> enrichNCBIProteins(HashMap<String, Protein> proteins) throws Exception {
+
+    private HashMap<String, Protein> enrichNCBIProteins(HashMap<String, Protein> proteins) throws Exception {
 		// build the query
     	String query = "";
     	
@@ -312,31 +362,31 @@ public class ProteinDetailFetcher {
             throw new Exception("Failed to parse NCBI XML snipplet");
 
         @SuppressWarnings("unchecked")
-		List<Element> docSums = root.getChildren("DocSum");
+        List<Element> docSums = root.getChildren("DocSum");
         HashMap<Integer, HashMap<String, String>> elementProperties = new HashMap<Integer, HashMap<String,String>>();
-        
+
         for (Element docSum : docSums) {
-	        if (docSum == null)
-	            throw new Exception("Failed to parse NCBI XML snipplet");
-	
-	        // get all the items
-	        @SuppressWarnings("unchecked")
-			List<Element> items = docSum.getChildren("Item");
-	
-	        // initialize the return variable
-	        HashMap<String, String> properties = new HashMap<String, String>();
-	
-	        // parse the items
-	        for (Element item : items) {
-				if(item.getAttributes().contains("Name")) {
-					properties.put(item.getAttributeValue("Name"), item.getValue());
-				}
-	        }
-	        
-	        // get the id
-	        String gi = docSum.getChildText("Id");
-	        
-	        elementProperties.put(Integer.parseInt(gi), properties);
+            if (docSum == null)
+                throw new Exception("Failed to parse NCBI XML snipplet");
+
+            // get all the items
+            @SuppressWarnings("unchecked")
+            List<Element> items = docSum.getChildren("Item");
+
+            // initialize the return variable
+            HashMap<String, String> properties = new HashMap<String, String>();
+
+            // parse the items
+            for (Element item : items) {
+                if(item.getAttributes().contains("Name")) {
+                    properties.put(item.getAttributeValue("Name"), item.getValue());
+                }
+            }
+
+            // get the id
+            String gi = docSum.getChildText("Id");
+
+            elementProperties.put(Integer.parseInt(gi), properties);
         }
 
         return elementProperties;
@@ -349,6 +399,7 @@ public class ProteinDetailFetcher {
      * @return Protein Returns the converter Protein object or null in case nothing was found.
      * @throws Exception
      */
+	@Deprecated
     private Protein convertNcbiFastaToProtein(String fasta, boolean useGi) throws Exception {
     	// make sure something was found
     	if (fasta.trim().length()==0 || (!fasta.startsWith(">") && fasta.contains("Nothing has been found"))) {
@@ -401,6 +452,47 @@ public class ProteinDetailFetcher {
         
         return protein;
     }
+
+	/**
+	 * Converts an NCBI gi fasta entry to a Protein object.
+	 * @param fasta The fasta to convert.
+	 * @return Protein Returns the converter Protein object or null in case nothing was found.
+	 * @throws Exception
+	 */
+	private Protein convertNcbiFastaToProtein(String fasta, String originalID) throws Exception {
+		// make sure something was found
+		if (fasta.trim().length()==0 || (!fasta.startsWith(">") && fasta.contains("Nothing has been found"))) {
+			return null;
+		}
+
+		// only use the first line
+		String header = fasta.substring(0, fasta.indexOf(EOL));
+
+		// get the sequence
+		String sequence = fasta.substring(fasta.indexOf(EOL) + 1);
+		// remove all whitespaces
+		sequence = sequence.replaceAll("\\s", "");
+
+		// extract the protein name
+		Pattern pat = Pattern.compile(">[*\\s](.*)");
+
+		Matcher matcher = pat.matcher(header);
+
+		// make sure it matches
+		if (!matcher.find())
+			throw new Exception("Unexpected fasta format encountered:\n" + fasta);
+
+		String accession   = matcher.group(1);
+        String description = matcher.group( 2);
+
+		// create the protein object
+		Protein protein = new Protein(accession);
+		protein.setSequenceString(sequence);
+		protein.setProperty(PROPERTY.GI_NUMBER, originalID);
+		protein.setProperty(PROPERTY.DESCRIPTION, description);
+
+		return protein;
+	}
     
     /**
      * Returns the details for the given IPI identifiers in
