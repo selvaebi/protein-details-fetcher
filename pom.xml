@@ -9,77 +9,18 @@
 
     <name>protein-details-fetcher</name>
 
-    <developers>
-        <developer>
-            <id>jgriss</id>
-            <name>Johannes Griss</name>
-            <email>jgriss@ebi.ac.uk</email>
-            <organization>European Bioinformatics Institute</organization>
-            <organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
-        </developer>
-        <developer>
-            <id>ypriverol</id>
-            <name>Yasset Perez-Riverol</name>
-            <email>yperez@ebi.ac.uk</email>
-            <organization>European Bioinformatics Institute</organization>
-            <organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
-        </developer>
-    </developers>
-    <organization>
-        <name>European Bioinformatics Institute</name>
-        <url>http://www.ebi.ac.uk</url>
-    </organization>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <remoteTagging>true</remoteTagging>
-                    <goals>deploy</goals>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <parent>
+        <groupId>uk.ac.ebi.pride.architectural</groupId>
+        <artifactId>pride-core</artifactId>
+        <version>1.0.1</version>
+    </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -94,12 +35,12 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>0.9.24</version>
+            <version>1.0.7</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>0.9.24</version>
+            <version>1.0.7</version>
         </dependency>
         <dependency>
             <groupId>jdom</groupId>
@@ -112,37 +53,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>nexus-ebi-release-repo</id>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
-        </repository>
-        <repository>
-            <id>nexus-ebi-snapshot-repo</id>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-snapshots/</url>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <!-- EBI repo -->
-        <repository>
-            <id>pst-release</id>
-            <name>EBI Nexus Repository</name>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-release</url>
-        </repository>
-        <!-- EBI SNAPSHOT repo -->
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>pst-snapshots</id>
-            <name>EBI Nexus Snapshots Repository</name>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <scm>
-        <connection>scm:git:github.com/PRIDE-Utilities/protein-details-fetcher.git</connection>
-        <developerConnection>scm:git:git@github.com:PRIDE-Utilities/protein-details-fetcher.git</developerConnection>
-        <url>https://github.com/PRIDE-Utilities/protein-details-fetcher.git</url>
+        <connection>scm:git:https://github.com/PRIDE-Utilities/protein-details-fetcher.git</connection>
+        <developerConnection>scm:git:https://github.comPRIDE-Utilities/protein-details-fetcher.git</developerConnection>
+        <url>https://github.com/PRIDE-Utilities/protein-details-fetcher</url>
         <tag>HEAD</tag>
     </scm>
 </project>
