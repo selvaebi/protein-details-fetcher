@@ -54,7 +54,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/PRIDE-Utilities/protein-details-fetcher.git</connection>
-        <developerConnection>scm:git:https://github.comPRIDE-Utilities/protein-details-fetcher.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/PRIDE-Utilities/protein-details-fetcher.git</developerConnection>
         <url>https://github.com/PRIDE-Utilities/protein-details-fetcher</url>
         <tag>HEAD</tag>
     </scm>
