@@ -14,7 +14,6 @@
         <artifactId>pride-core</artifactId>
         <version>1.0.1</version>
     </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -52,7 +51,6 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
-
 
     <scm>
         <connection>scm:git:https://github.com/PRIDE-Utilities/protein-details-fetcher.git</connection>

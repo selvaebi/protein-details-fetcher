@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Regular expression pattern and url for protein accessions.
- * <p/>
+ * <p>Regular expression pattern and url for protein accessions.</p>
+ *
  * User: rwang
  * Date: 16-Sep-2010
  * Time: 10:12:32

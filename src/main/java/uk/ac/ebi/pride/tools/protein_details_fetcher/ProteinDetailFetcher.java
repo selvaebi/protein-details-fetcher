@@ -26,7 +26,6 @@ public class ProteinDetailFetcher {
   private static final String EOL = "\n";
   private static final String UNIPROT_PROTEIN = "P31946L";
 
-
   /**
    * Queries used to fetch the actual protein
    * details.
@@ -43,7 +42,7 @@ public class ProteinDetailFetcher {
     DETAILS_QUERY(String formatString) {
       this.queryString = formatString;
     }
-
+    
     public String getQueryString() {
       return queryString;
     }
