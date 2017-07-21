@@ -73,7 +73,7 @@ public class ProteinDetailFetcher {
    * @author jg
    *
    */
-  private enum AccessionType{UNIPROT_ACC, UNIPROT_ID, UNIPARC, REFSEQ, ENSEMBL, UNKNOWN}
+  public enum AccessionType{UNIPROT_ACC, UNIPROT_ID, UNIPARC, REFSEQ, ENSEMBL, UNKNOWN}
 
   /**
    * Returns the (guessed) accession type for the passed
