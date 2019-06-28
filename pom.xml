@@ -44,7 +44,21 @@
             <artifactId>jdom</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.uniprot</groupId>
+            <artifactId>japi</artifactId>
+            <version>1.0.25</version>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>ebi-repo</id>
+            <name>ebi-repo</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+        </repository>
+    </repositories>
+
 
     <scm>
         <connection>scm:git:https://github.com/PRIDE-Utilities/protein-details-fetcher.git</connection>

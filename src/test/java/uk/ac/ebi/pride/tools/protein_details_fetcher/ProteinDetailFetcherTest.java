@@ -11,6 +11,16 @@ import junit.framework.TestCase;
 
 public class ProteinDetailFetcherTest extends TestCase {
 
+
+  public void testResults(){
+
+    ProteinDetailFetcher fetcher = new ProteinDetailFetcher();
+    String proteinSequence = fetcher.getUniprotProteinByBlast("MPVTKCPRKSEPLWKGWDQKAQKNGLRHQVFAVNGDHYVGEWKGNLKHGKGTQVWKQSGAMYEGDWKFGKRDGYGILSHPDPETGKLKRVYSGWWKGDKKSGYGIQFFGPKEYYEGEWCSNQRSGWGRMYYNNGDIYEGQWKNDKPDGEGMLRLKNGNRYEGSWERGMKNGHGRFFHLDHGQLFEGFWVDNVAKCGTMIDFGRDEAPEPTQFPIPKVEILDPDGVLKEALDKLKKPEEEED", 100);
+
+    System.out.println(proteinSequence);
+
+  }
+
   public void testGetProteinDetails() {
     ProteinDetailFetcher fetcher = new ProteinDetailFetcher();
     ArrayList<String> accessions = new ArrayList<>(3);

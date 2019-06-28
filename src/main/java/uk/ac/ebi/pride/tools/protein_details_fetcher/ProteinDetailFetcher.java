@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,10 @@ import uk.ac.ebi.pride.tools.protein_details_fetcher.model.Protein;
 import uk.ac.ebi.pride.tools.protein_details_fetcher.model.Protein.PROPERTY;
 import uk.ac.ebi.pride.tools.protein_details_fetcher.model.Protein.STATUS;
 import uk.ac.ebi.pride.tools.protein_details_fetcher.util.ProteinAccessionPattern;
+import uk.ac.ebi.uniprot.dataservice.client.Client;
+import uk.ac.ebi.uniprot.dataservice.client.ServiceFactory;
+import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.*;
+import uk.ac.ebi.uniprot.dataservice.client.alignment.blast.input.DatabaseOption;
 
 public class ProteinDetailFetcher {
 
@@ -141,6 +147,40 @@ public class ProteinDetailFetcher {
       }
     }
     return proteins;
+  }
+
+  public String getUniprotProteinByBlast(String sequence, float thershold){
+    // Create UniProt blast service
+    ServiceFactory serviceFactoryInstance = Client.getServiceFactoryInstance();
+    UniProtBlastService uniProtBlastService = serviceFactoryInstance.getUniProtBlastService();
+    uniProtBlastService.start();
+    // Create a blast input with a Database and sequence
+    BlastInput input = new BlastInput.Builder(DatabaseOption.TREMBL, sequence).build();
+    // Submitting the input to the service will return a completable future
+    CompletableFuture<BlastResult<UniProtHit>> resultFuture = uniProtBlastService.runBlast(input);
+
+    BlastResult blastResult = null;
+    String resultId = null;
+    try {
+      blastResult = resultFuture.get();
+      logger.info("Number of blast hits: " + blastResult.getNumberOfHits());
+      for (Object obejct : blastResult.hits()) {
+        UniProtHit hit = (UniProtHit) obejct;
+        System.out.println(((UniProtHit)hit).getSummary().getEntryAc() + "\t" +
+                ((UniProtHit)hit).getEntry().getPrimaryUniProtAccession().getValue());
+        Optional<Alignment> hitResult = hit.getSummary().getAlignments().stream().filter(x -> (x.getIdentity() >= thershold)).findFirst();
+        if(hitResult.isPresent()){
+          resultId = hit.getEntry().getUniProtId().toString();
+        }
+      }
+    } catch (InterruptedException e) {
+
+    } catch (ExecutionException e) {
+      e.printStackTrace();
+    } finally {
+      uniProtBlastService.stop();
+    }
+    return resultId;
   }
 
   /**
