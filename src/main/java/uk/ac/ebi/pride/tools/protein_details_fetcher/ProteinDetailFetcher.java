@@ -88,7 +88,7 @@ public class ProteinDetailFetcher {
    * @param accession The accession to guess the type for.
    * @return The accession's type.
    */
-  private AccessionType getAccessionType(String accession) {
+  public static AccessionType getAccessionType(String accession) {
     AccessionType result = AccessionType.UNKNOWN;
     if (ProteinAccessionPattern.isSwissprotAccession(accession)) {
       result =  AccessionType.UNIPROT_ACC; // swissprot accession
