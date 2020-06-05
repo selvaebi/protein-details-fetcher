@@ -51,13 +51,32 @@
         </dependency>
     </dependencies>
 
+    <!-- Repos and distribution -->
     <repositories>
         <repository>
-            <id>ebi-repo</id>
-            <name>ebi-repo</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+            <id>nexus-ebi-release-repo</id>
+            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
+        </repository>
+        <repository>
+            <id>nexus-ebi-snapshot-repo</id>
+            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-snapshots/</url>
         </repository>
     </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>pst-release</id>
+            <name>EBI Nexus Repository</name>
+            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-release</url>
+        </repository>
+        <!-- Deployment to EBI's snapshot repository -->
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>pst-snapshots</id>
+            <name>EBI Nexus Snapshots Repository</name>
+            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
     <scm>
